@@ -2017,11 +2017,13 @@ function generateId(): string {
 }
 
 function getXPForLevel(level: number): number {
-  return level * level * 100;
+  // Level 1 starts at 0 XP, level 2 at 100 XP, level 3 at 400 XP, etc.
+  return (level - 1) * (level - 1) * 100;
 }
 
 function getLevelFromXP(xp: number): number {
-  return Math.floor(Math.sqrt(xp / 100));
+  // Inverse of getXPForLevel: floor(sqrt(xp / 100)) + 1 ensures minimum level 1
+  return Math.floor(Math.sqrt(xp / 100)) + 1;
 }
 
 async function initializeOrchestra(env: Env): Promise<OrchestraState> {
